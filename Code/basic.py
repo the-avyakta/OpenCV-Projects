@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # Read the image in grayscale
-img = cv2.imread('src/test.png', 0)
+img = cv2.imread('src/test2.jpg', 0)
 if img is None:
     print("Error: Could not read the image.")
 else:
@@ -19,14 +19,17 @@ else:
     sobely = cv2.Sobel(src=img_blur, ddepth=cv2.CV_64F, dx=0, dy=1, ksize=5)
     sobelxy = cv2.Sobel(src=img_blur, ddepth=cv2.CV_64F, dx=1, dy=1, ksize=5)
 
+    sobelxy2 = cv2.Sobel(src=resize_img, ddepth=cv2.CV_64F, dx=1, dy=1, ksize=5)
+
     # Convert Sobel images to uint8 for display
     abs_sobelx = cv2.convertScaleAbs(sobelx)
     abs_sobely = cv2.convertScaleAbs(sobely)
     abs_sobelxy = cv2.convertScaleAbs(sobelxy)
 
-    # Concatenate images horizontally
-    imgfull = np.concatenate((resize_img, img_blur, abs_sobelx, abs_sobely, abs_sobelxy), axis=1)
+    abs_sobelxy2 = cv2.convertScaleAbs(sobelxy2)
 
+    # Concatenate images horizontally
+    imgfull = np.concatenate((resize_img, img_blur, abs_sobelxy, abs_sobelxy2), axis=1)
     # Display the concatenated images
     cv2.imshow("all", imgfull)
     cv2.waitKey(0)
